@@ -9,12 +9,12 @@ jobs:
       fail-fast: false
       matrix:
         TARGET:
-          # - {
-          #     OS: 'ubuntu-latest',
-          #     CFLAGS: '-static -fno-stack-protector -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=0',
-          #     HOST: 'i386-pc-linux',
-          #     ARCHIVE_NAME: 'binutils-mips-ps2-decompals-linux-x86-64.tar.gz'
-          #   }
+          - {
+              OS: 'ubuntu-latest',
+              CFLAGS: '-static -fno-stack-protector -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=0',
+              HOST: 'i386-pc-linux',
+              ARCHIVE_NAME: 'binutils-mips-ps2-decompals-linux-x86-64.tar.gz'
+            }
           - {
               OS: 'macos-latest',
               CFLAGS: '',
@@ -40,7 +40,7 @@ jobs:
         if: matrix.TARGET.OS == 'macos-latest'
         run: |
           brew update
-          brew install bison texinfo
+          brew install bison
 
       - name: Configure for mips (Ubuntu)
         shell: bash
@@ -52,7 +52,7 @@ jobs:
         shell: bash
         if: matrix.TARGET.OS == 'macos-latest'
         run: |
-          ./configure --target=mips --prefix=/opt/cross --disable-gprofng --disable-gdb --disable-werror --with-system-zlib --host=${{ matrix.TARGET.HOST }} --build=${{ matrix.TARGET.HOST }} --with-gmp=/opt/homebrew/Cellar/gmp/6.3.0 --with-mpfr=/opt/homebrew/Cellar/mpfr/4.2.2
+          ./configure --target=mips --prefix=/opt/cross --disable-doc --disable-gprofng --disable-gdb --disable-werror --with-system-zlib --host=${{ matrix.TARGET.HOST }} --build=${{ matrix.TARGET.HOST }} --with-gmp=/opt/homebrew/Cellar/gmp/6.3.0 --with-mpfr=/opt/homebrew/Cellar/mpfr/4.2.2
 
       - name: Make
         shell: bash
