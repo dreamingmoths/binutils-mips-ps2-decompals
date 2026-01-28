@@ -52,12 +52,19 @@ jobs:
         shell: bash
         if: matrix.TARGET.OS == 'macos-latest'
         run: |
-          ./configure --target=mips --prefix=/opt/cross --disable-gprofng --disable-gdb --disable-werror --host=${{ matrix.TARGET.HOST }} --build=${{ matrix.TARGET.HOST }} --with-gmp=/opt/homebrew/Cellar/gmp/6.3.0 --with-mpfr=/opt/homebrew/Cellar/mpfr/4.2.2
+          ./configure --target=mips --prefix=/opt/cross --disable-gprofng --disable-gdb --disable-werror --with-system-zlib --host=${{ matrix.TARGET.HOST }} --build=${{ matrix.TARGET.HOST }} --with-gmp=/opt/homebrew/Cellar/gmp/6.3.0 --with-mpfr=/opt/homebrew/Cellar/mpfr/4.2.2
 
       - name: Make
         shell: bash
+        if: matrix.TARGET.OS == 'ubuntu-latest'
         run: |
           make -j $(nproc) CFLAGS="${{ matrix.TARGET.CFLAGS }}"
+
+      - name: Make
+        shell: bash
+        if: matrix.TARGET.OS == 'macos-latest'
+        run: |
+          make -j $(sysctl -n hw.ncpu)
 
       - name: Test for file
         shell: bash
