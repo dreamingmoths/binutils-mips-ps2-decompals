@@ -40,7 +40,7 @@ jobs:
         if: matrix.TARGET.OS == 'macos-latest'
         run: |
           brew update
-          brew install bison
+          brew install bison texinfo
 
       - name: Configure for mips (Ubuntu)
         shell: bash
