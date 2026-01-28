@@ -40,7 +40,7 @@ jobs:
         if: matrix.TARGET.OS == 'macos-latest'
         run: |
           brew update
-          brew install bison
+          brew install bison texinfo
 
       - name: Configure for mips (Ubuntu)
         shell: bash
@@ -52,7 +52,7 @@ jobs:
         shell: bash
         if: matrix.TARGET.OS == 'macos-latest'
         run: |
-          ./configure --target=mips --prefix=/opt/cross --disable-doc --disable-gprofng --disable-gdb --disable-werror --with-system-zlib --host=${{ matrix.TARGET.HOST }} --build=${{ matrix.TARGET.HOST }} --with-gmp=/opt/homebrew/Cellar/gmp/6.3.0 --with-mpfr=/opt/homebrew/Cellar/mpfr/4.2.2
+          ./configure --target=mips --prefix=/opt/cross --disable-gprofng --disable-gdb --disable-werror --with-system-zlib --host=${{ matrix.TARGET.HOST }} --build=${{ matrix.TARGET.HOST }} --with-gmp=/opt/homebrew/Cellar/gmp/6.3.0 --with-mpfr=/opt/homebrew/Cellar/mpfr/4.2.2
 
       - name: Make
         shell: bash
