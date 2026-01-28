@@ -36,6 +36,7 @@ jobs:
           sudo apt-get install -y build-essential bison libmpfr-dev
 
       - name: Install dependencies (macOS)
+        shell: bash
         if: matrix.TARGET.OS == 'macos-latest'
         run: |
           brew update
@@ -43,11 +44,13 @@ jobs:
 
       - name: Configure for mips (Ubuntu)
         shell: bash
+        if: matrix.TARGET.OS == 'ubuntu-latest'
         run: |
           ./configure --target=mips --prefix=/opt/cross --disable-gprofng --disable-gdb --disable-werror --host=${{ matrix.TARGET.HOST }} --build=${{ matrix.TARGET.HOST }}
 
       - name: Configure for mips (macOS)
         shell: bash
+        if: matrix.TARGET.OS == 'macos-latest'
         run: |
           ./configure --target=mips --prefix=/opt/cross --disable-gprofng --disable-gdb --disable-werror --host=${{ matrix.TARGET.HOST }} --build=${{ matrix.TARGET.HOST }} --with-gmp=/opt/homebrew/Cellar/gmp/6.3.0 --with-mpfr=/opt/homebrew/Cellar/mpfr/4.2.2
 
